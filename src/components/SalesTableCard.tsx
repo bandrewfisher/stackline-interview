@@ -11,8 +11,9 @@ import { Sale } from "../types";
 import { NumericFormat } from "react-number-format";
 import CurrencyDisplay from "./CurrencyDisplay";
 import TablePagination from "@mui/material/TablePagination";
-import TableFooter from "@mui/material/TableFooter";
 import TableSortLabel from "@mui/material/TableSortLabel";
+import Typography from "@mui/material/Typography";
+import { DateTime } from "luxon";
 
 interface HeadCell {
   id: keyof Sale;
@@ -98,7 +99,7 @@ function SalesTableCard({ sales }: SalesTableCardProps) {
                       direction={orderBy === cell.id ? order : "asc"}
                       onClick={() => handleSortOrderChange(cell.id)}
                     >
-                      {cell.label}
+                      <Typography variant="button">{cell.label}</Typography>
                     </TableSortLabel>
                   </TableCell>
                 ))}
@@ -112,41 +113,53 @@ function SalesTableCard({ sales }: SalesTableCardProps) {
                 .slice(rowsPerPage * page, rowsPerPage * (page + 1))
                 .map((sale) => (
                   <TableRow key={sale.weekEnding}>
-                    <TableCell>{sale.weekEnding}</TableCell>
-                    <TableCell align="right">
-                      <CurrencyDisplay value={sale.retailSales} />
+                    <TableCell>
+                      <Typography color="gray">
+                        {DateTime.fromFormat(
+                          sale.weekEnding,
+                          "yyyy-LL-dd"
+                        ).toFormat("LL-dd-yy")}
+                      </Typography>
                     </TableCell>
                     <TableCell align="right">
-                      <CurrencyDisplay value={sale.wholesaleSales} />
+                      <Typography color="gray">
+                        <CurrencyDisplay value={sale.retailSales} />
+                      </Typography>
                     </TableCell>
                     <TableCell align="right">
-                      <NumericFormat
-                        displayType="text"
-                        thousandSeparator=","
-                        value={sale.unitsSold}
-                      />
+                      <Typography color="gray">
+                        <CurrencyDisplay value={sale.wholesaleSales} />
+                      </Typography>
                     </TableCell>
                     <TableCell align="right">
-                      <CurrencyDisplay value={sale.retailerMargin} />
+                      <Typography color="gray">
+                        <NumericFormat
+                          displayType="text"
+                          thousandSeparator=","
+                          value={sale.unitsSold}
+                        />
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography color="gray">
+                        <CurrencyDisplay value={sale.retailerMargin} />
+                      </Typography>
                     </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[10, 25, 50]}
-                  colSpan={3}
-                  count={sales.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={(_, newPage) => setPage(newPage)}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </TableRow>
-            </TableFooter>
           </Table>
         </TableContainer>
+        <TablePagination
+          component="div"
+          rowsPerPageOptions={[10, 25, 50]}
+          colSpan={3}
+          count={sales.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(_, newPage) => setPage(newPage)}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </CardContent>
     </Card>
   );

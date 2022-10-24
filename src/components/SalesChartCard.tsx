@@ -68,7 +68,7 @@ function SalesChartCard({ retailSales, wholesaleSales }: SalesChartCardProps) {
               data,
               primaryAxis,
               secondaryAxes,
-              showDebugAxes: false,
+              tooltip: false,
             }}
           />
         </div>

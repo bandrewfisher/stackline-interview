@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
 import { Product } from "../types";
 
 export interface ProductCardProps {
@@ -23,8 +24,16 @@ function ProductCard({ product }: ProductCardProps) {
               alt="Product"
             />
           </Grid>
-          <Grid item>{product.title}</Grid>
-          <Grid item>{product.subtitle}</Grid>
+          <Grid item>
+            <Typography variant="h5" fontWeight="bold">
+              {product.title}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography color="gray" textAlign="center">
+              {product.subtitle}
+            </Typography>
+          </Grid>
           <Divider />
           <Grid item>
             <Grid container spacing={1}>
