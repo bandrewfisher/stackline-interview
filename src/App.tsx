@@ -4,12 +4,11 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import stacklineLogo from "./stackline_logo.svg";
 import productData from "./stackline_frontend_assessment_data_2021";
 import ProductCard from "./components/ProductCard";
 import SalesTableCard from "./components/SalesTableCard";
+import SalesChartCard from "./components/SalesChartCard";
 
 function App() {
   return (
@@ -30,7 +29,23 @@ function App() {
           <ProductCard product={productData[0]} />
         </Grid>
         <Grid item xs={8}>
-          <SalesTableCard sales={productData[0].sales} />
+          <Grid container direction="column" spacing={3}>
+            <Grid item>
+              <SalesChartCard
+                retailSales={productData[0].sales.map((sale) => ({
+                  date: new Date(sale.weekEnding),
+                  sales: sale.retailSales,
+                }))}
+                wholesaleSales={productData[0].sales.map((sale) => ({
+                  date: new Date(sale.weekEnding),
+                  sales: sale.wholesaleSales + sale.retailSales,
+                }))}
+              />
+            </Grid>
+            <Grid item>
+              <SalesTableCard sales={productData[0].sales} />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Box>
