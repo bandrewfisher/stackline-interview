@@ -105,7 +105,7 @@ function SalesTableCard({ sales }: SalesTableCardProps) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sales
+              {[...sales]
                 .sort((a, b) =>
                   order === "asc" ? -sortComparator(a, b) : sortComparator(a, b)
                 )
